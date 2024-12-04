@@ -13,7 +13,7 @@ const Navbar = () => {
       <nav className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           <div className="text-white font-bold text-xl">
-            <Link to="/">Logo</Link>
+          <img src="/images/logo.png" alt="Logo" style={{width: '100px', heighth: 'auto' }} />
           </div>
           <div className="hidden md:block">
             <ul className="flex items-center space-x-8">

@@ -1,76 +1,85 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import RegisterProduct from '../components/RegisterProduct';
+import ModalEditProduct from '../components/ModalEditProduct';
 
 const Catalog = () => {
   const [products, setProducts] = useState([]);
-  const [showMore, setShowMore] = useState({});
-  const [showForm, setShowForm] = useState(false); // Estado para mostrar u ocultar el formulario
-  const [newProduct, setNewProduct] = useState({
-    nombre: '',
-    descripcion: '',
-    precio: '',
-  });
+  const [showMore, setShowMore] = useState({}); // Estado para mostrar más/menos texto
+  const [showForm, setShowForm] = useState(false); // Para mostrar/ocultar el formulario
+  const [productToEdit, setProductToEdit] = useState(null); // Producto seleccionado para editar
 
   // Llamada a la API
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('http://localhost/products/api.php/productos');
-        const productsWithImages = response.data.map((product) => ({
-          ...product,
-          image: getProductImage(product.id), // Asignar imagen específica
-        }));
-        setProducts(productsWithImages);
-      } catch (error) {
-        console.error('Error al obtener los productos:', error);
-      }
-    };
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('http://localhost/products/api.php/productos');
+      const productsWithImages = response.data.map((product) => ({
+        ...product,
+        image: getProductImage(product.id), // Asignar imagen específica
+      }));
+      setProducts(productsWithImages);
+    } catch (error) {
+      console.error('Error al obtener los productos:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchProducts();
-  }, []);
+  }, []); // Esta llamada solo se hace una vez cuando el componente se monta
 
   // Función para asignar imágenes según el id del producto
   const getProductImage = (id) => {
     const images = {
-      1: '/images/planta1.jpg',
-      2: '/images/planta2.jpg',
-      3: '/images/planta3.png',
-      4: '/images/planta4.jpg',
-      5: '/images/planta5.jfif',
-      6: '/images/planta6.jfif',
-      7: '/images/planta7.jpg',
-      8: '/images/planta8.jpeg',
-      9: '/images/planta9.jfif',
-      10: '/images/planta10.jpg',
-      11: '/images/planta11.jfif',
-      12: '/images/planta12.jpg'
+      1: '/images/1.jpg',
+      2: '/images/2.jpg',
+      3: '/images/3.jpg',
+      4: '/images/4.jpeg',
+      5: '/images/5.jpg',
+      6: '/images/6.jpg',
+      7: '/images/7.jpg',
+      8: '/images/8.jpg',
+      9: '/images/9.jpg',
+      10: '/images/10.jpg',
+      11: '/images/11.jpg',
+      12: '/images/12.jpg',
+      14:  '/images/14.jpg'
     };
     return images[id] || '/images/default.jpg'; // Imagen por defecto si no hay coincidencia
   };
 
-  // Límite de caracteres para la descripción
-  const maxDescriptionLength = 100;
-
+  // Manejo de mostrar más texto
   const toggleShowMore = (id) => {
     setShowMore((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // Manejo del formulario
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewProduct({ ...newProduct, [name]: value });
+  // Agregar un producto nuevo al catálogo
+  const handleProductRegistered = (newProduct) => {
+    setProducts((prev) => [...prev, newProduct]); // Agrega el producto nuevo al final
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Aquí deberías ajustar la ruta de tu API para añadir productos
-      await axios.post('http://localhost/products/api.php/productos', newProduct);
-      alert('Producto registrado exitosamente');
-      setNewProduct({ nombre: '', descripcion: '', precio: '' }); // Reinicia el formulario
-      setShowForm(false); // Oculta el formulario
-    } catch (error) {
-      console.error('Error al registrar el producto:', error);
+  // Actualizar un producto editado en el catálogo
+  const handleProductUpdated = (updatedProduct) => {
+    setProducts((prev) =>
+      prev.map((product) => (product.id === updatedProduct.id ? updatedProduct : product))
+    );
+  };
+
+  // Eliminar un producto
+  const handleProductDelete = async (id) => {
+    const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este producto?");
+    if (confirmDelete) {
+      try {
+        const response = await axios.delete(`http://localhost/products/api.php/productos/${id}`);
+        if (response.status === 200) {
+          alert('Producto eliminado con éxito');
+          // Eliminar el producto del estado después de la respuesta exitosa
+          setProducts((prev) => prev.filter((product) => product.id !== id));
+        } else {
+          alert('Error al eliminar el producto');
+        }
+      } catch (error) {
+        alert(`Error al eliminar el producto: ${error.message}`);
+      }
     }
   };
 
@@ -87,85 +96,42 @@ const Catalog = () => {
           </button>
         </div>
 
-        {/* Formulario */}
+        {/* Formulario de registro */}
         {showForm && (
-          <div className="bg-gray-800 rounded-lg p-6 mb-8">
-            <h2 className="text-xl font-medium title-font text-white mb-4">Registrar nuevo producto</h2>
-            <form onSubmit={handleSubmit}>
-              {/* Primera fila: Nombre y Precio */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-white mb-2">Nombre del producto</label>
-                  <input
-                    type="text"
-                    name="nombre"
-                    value={newProduct.nombre}
-                    onChange={handleInputChange}
-                    className="w-full bg-gray-700 text-white rounded-lg p-2"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-white mb-2">Precio</label>
-                  <input
-                    type="number"
-                    name="precio"
-                    value={newProduct.precio}
-                    onChange={handleInputChange}
-                    className="w-full bg-gray-700 text-white rounded-lg p-2"
-                    required
-                  />
-                </div>
-              </div>
-              {/* Segunda fila: Descripción */}
-              <div className="mb-4">
-                <label className="block text-white mb-2">Descripción</label>
-                <textarea
-                  name="descripcion"
-                  value={newProduct.descripcion}
-                  onChange={handleInputChange}
-                  className="w-full bg-gray-700 text-white rounded-lg p-2"
-                  rows="3"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Registrar producto
-              </button>
-            </form>
-          </div>
+          <RegisterProduct onProductRegistered={handleProductRegistered} />
+        )}
+
+        {/* Modal de edición */}
+        {productToEdit && (
+          <ModalEditProduct
+            product={productToEdit}
+            onClose={() => setProductToEdit(null)}
+            onProductUpdated={handleProductUpdated} // Asegúrate de pasar esta función
+          />
         )}
 
         {/* Catálogo de productos */}
         <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-6">
           {products.map((product) => (
             <div className="p-4 md:w-1/3 sm:mb-0 mb-6" key={product.id}>
-              {/* Contenedor con posición relativa para colocar el ID */}
               <div className="relative rounded-lg h-64 overflow-hidden">
-                {/* ID sobre la imagen */}
                 <h3 className="absolute top-0 left-0 text-sm font-medium title-font text-white bg-black bg-opacity-50 p-1">
                   {product.id}
                 </h3>
-                {/* Imagen del producto */}
                 <img
                   alt={product.nombre}
                   className="object-cover object-center h-full w-full"
                   src={product.image}
                 />
               </div>
-              {/* Nombre del producto */}
               <h2 className="text-xl font-medium title-font text-white mt-5">{product.nombre}</h2>
-              {/* Descripción del producto */}
+              {/* Descripción con el 'Leer más' */}
               <p className="text-base leading-relaxed mt-2">
-                {showMore[product.id] || product.descripcion.length <= maxDescriptionLength
+                {showMore[product.id] || (product.descripcion && product.descripcion.length <= 100)
                   ? product.descripcion
-                  : `${product.descripcion.substring(0, maxDescriptionLength)}...`}
+                  : `${product.descripcion ? product.descripcion.substring(0, 100) : ''}...`}
               </p>
-              {/* Botón "Leer más"/"Leer menos" */}
-              {product.descripcion.length > maxDescriptionLength && (
+              {product.descripcion && product.descripcion.length > 100 && (
                 <button
                   onClick={() => toggleShowMore(product.id)}
                   className="text-indigo-400 inline-flex items-center mt-3"
@@ -173,8 +139,29 @@ const Catalog = () => {
                   {showMore[product.id] ? 'Leer menos' : 'Leer más'}
                 </button>
               )}
-              {/* Precio del producto */}
               <p className="text-lg text-yellow-500 mt-3">Precio: ${product.precio}</p>
+
+              {/* Botones de acción */}
+              <div className="flex justify-center space-x-2 mt-4">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm"
+                  onClick={() => setProductToEdit(product)} // Al hacer click se selecciona el producto a editar
+                >
+                  Editar
+                </button>
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm"
+                  onClick={() => handleProductDelete(product.id)} // Al hacer click se elimina el producto
+                >
+                  Eliminar
+                </button>
+                <button
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm"
+                  onClick={fetchProducts} // Botón para actualizar los productos
+                >
+                  Actualizar
+                </button>
+              </div>
             </div>
           ))}
         </div>

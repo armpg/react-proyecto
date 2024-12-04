@@ -6,18 +6,13 @@ const Home = () => {
       {/* Sección principal - Bienvenida y descripción de la Floristería */}
       <div className="container max-w-full mx-auto py-24 px-6 flex-grow">
         <div className="text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Bienvenidos a Nuestra Floristería</h1>
+          <h1 className="text-4xl font-bold mb-4">Bienvenido a TechR&A: Innovación al alcance de tus manos</h1>
           <p className="text-xl mb-8">
-            Judith(the funniest programmer🙌🏻​😝​)
-            Encuentra las flores más hermosas y frescas para cualquier ocasión. Desde ramos de rosas hasta decoraciones
-            personalizadas para eventos, tenemos todo lo que necesitas para alegrar tu día.
+          Explora nuestra amplia gama de productos tecnológicos diseñados para transformar tu vida. Desde dispositivos
+           inteligentes hasta los gadgets más innovadores, todo en un solo lugar.
           </p>
-          <button
-            className="text-lg font-semibold bg-pink-600 hover:bg-pink-800 text-white rounded-lg px-6 py-3"
-            onClick={() => alert('Explora nuestros productos')}
-          >
-            Explorar Productos
-          </button>
+          <h1 className="text-4xl font-bold mb-4 text-red-500">Productos</h1>
+
         </div>
 
         {/* Galería de imágenes de productos */}
@@ -25,13 +20,13 @@ const Home = () => {
           {/* Producto 1 */}
           <div className="rounded-lg overflow-hidden shadow-lg">
             <img
-              src="/images/Ramo1.jpg"
+              src="/images/Tecnologia.jpg"
               alt="Ramo de Rosas"
               className="w-full h-48 object-cover"
             />
             <div className="p-4 text-center">
-              <h3 className="font-medium text-xl text-white">Ramo bouquet</h3>
-              <p className="text-gray-300">Desde $25.99</p>
+              <h3 className="font-medium text-xl text-white">Articulos</h3>
+             
              
             </div>
           </div>
@@ -39,71 +34,46 @@ const Home = () => {
           {/* Producto 2 */}
           <div className="rounded-lg overflow-hidden shadow-lg">
             <img
-              src="/images/Orquideas.jpg"
-              alt="Orquídeas"
+              src="/images/varios.png"
+              alt="Laptops"
               className="w-full h-48 object-cover"
             />
             <div className="p-4 text-center">
-              <h3 className="font-medium text-xl text-white">Orquídeas</h3>
-              <p className="text-gray-300">Desde $35.99</p>
+              <h3 className="font-medium text-xl text-white">Laptops</h3>
+            
             </div>
           </div>
 
           {/* Producto 3 */}
           <div className="rounded-lg overflow-hidden shadow-lg">
             <img
-              src="/images/liriosramo.jpg"
+              src="/images/reloj.jpg"
               alt="Ramo de Lirios"
               className="w-full h-48 object-cover"
             />
             <div className="p-4 text-center">
-              <h3 className="font-medium text-xl text-white">Ramo de Lirios</h3>
-              <p className="text-gray-300">Desde $22.99</p>
+              <h3 className="font-medium text-xl text-white">Smartwatch FitLife 3</h3>
+            
             </div>
           </div>
 
-          {/* Producto 4 */}
+           {/* Producto 4 */}
           <div className="rounded-lg overflow-hidden shadow-lg">
             <img
-              src="/images/ramotulipanes.jpeg"
-              alt="Ramo de Tulipanes"
+              src="/images/rojo.jpg"
+              alt="Ramo de Lirios"
               className="w-full h-48 object-cover"
             />
             <div className="p-4 text-center">
-              <h3 className="font-medium text-xl text-white">Ramo de Tulipanes</h3>
-              <p className="text-gray-300">Desde $30.99</p>
+              <h3 className="font-medium text-xl text-white">Otros</h3>
+            
             </div>
           </div>
-       
-
-      {/* Producto 5 */}
-      <div className="rounded-lg overflow-hidden shadow-lg">
-            <img
-              src="/images/arismetico.jpg"
-              alt="Ramo arismetico"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4 text-center">
-              <h3 className="font-medium text-xl text-white">Ramo Arismetico</h3>
-              <p className="text-gray-300">Desde $20.00</p>
             </div>
           </div>
 
-          {/* Producto 6 */}
-      <div className="rounded-lg overflow-hidden shadow-lg">
-            <img
-              src="/images/buchon.jpg"
-              alt="Ramo de buchon"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4 text-center">
-              <h3 className="font-medium text-xl text-white">Ramo Buchon</h3>
-              <p className="text-gray-300">Desde $25.00</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
+        
+      
 
       {/* Sección de Suscripción */}
       <div className="w-full bg-indigo-800 text-white py-4">
@@ -144,8 +114,7 @@ const Home = () => {
                   name="subscription_email"
                   type="email"
                   placeholder="Escribe tu correo aquí"
-                  className="py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-xs lg:text-sm font-body placeholder-body min-h-12 transition duration-200 ease-in-out bg-white border-gray-300 focus:outline-none focus:border-heading md:h-12 px-4 lg:px-7 h-12 lg:h-14 text-center bg-white text-black"
-                  autoComplete="off"
+                  className="py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-xs lg:text-sm font-body placeholder-body min-h-12 transition duration-200 ease-in-out bg-white border-gray-300 focus:outline-none focus:border-heading md:h-12 px-4 lg:px-7 h-12 lg:h-14 text-center bg-white text-black"                   autoComplete="off"
                   spellCheck="false"
                   aria-invalid="false"
                 />
